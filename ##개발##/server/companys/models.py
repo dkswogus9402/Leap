@@ -25,7 +25,7 @@ class JobPosting(models.Model):
     requestments = models.TextField()
     employment_type = models.CharField(max_length=100)# 고용형태
     manager = models.CharField(max_length=100) # 현재 공고의 담당자
-    academy = models.ForeignKey(Company, on_delete=models.CASCADE, related_name='jobpostings')
+    company = models.ForeignKey(Company, on_delete=models.CASCADE, related_name='jobpostings')
     # progressing Job posting
     # 구인공고와 교육과정 M : N 관계
     application_jobseekers = models.ManyToManyField(settings.JOBSEEKER_MODEL, related_name ='application_postings') 
