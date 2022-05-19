@@ -1,6 +1,7 @@
+
 from rest_framework import serializers
 from rest_auth.registration.serializers import RegisterSerializer
-from .models import Academy
+from .models import Academy, Category, Education
 
 
 class AcademyCustomRegistrationSerializer(RegisterSerializer):
@@ -38,3 +39,31 @@ class AcademyCustomRegistrationSerializer(RegisterSerializer):
         )
         academy.save()
         return user
+
+
+
+
+class EducationListSerializer(serializers.ModelSerializer):
+
+
+    class Meta:
+        model = Education
+        fields = '__all__'
+
+    
+
+class EducationSerializer(serializers.ModelSerializer):
+    
+    
+    class Meta:
+        model = Education
+        fields = '__all__'
+        read_only_fields = ('job_posting', 'progressing_education', 'completed_education')
+    
+
+
+class CategorySerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        model = Category
+        fields = '__all__'
