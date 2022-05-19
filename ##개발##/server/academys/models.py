@@ -5,6 +5,7 @@ from django.conf import settings
 
 class Category(models.Model):
     name = models.CharField(max_length=45)
+    
     def __str__(self):
         return self.name
         
@@ -42,7 +43,7 @@ class Education(models.Model):
 
     title = models.CharField(max_length=45)
     content = models.TextField()
-    training_period = models.DateTimeField()
+    training_period = models.CharField(max_length=10)
     teacher = models.CharField(max_length=45)
     teacher_info = models.TextField()
     location = models.TextField()
@@ -50,7 +51,4 @@ class Education(models.Model):
 
     def __str__(self):
         return self.title
-
-
-
 
