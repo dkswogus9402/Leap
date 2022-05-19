@@ -33,15 +33,25 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     # local apps
     'accounts',
-    'jobseekers',
-    'companys',
-    'certifications',
     'academys',
+    'certifications',
+    'companys',
+    'jobseekers',
     # 3rd party apps
-
+    'django_extensions',
+    'rest_framework',
+    'rest_framework.authtoken',  # token 기반 auth
     # DRF auth
+    'dj_rest_auth',  # signup 제외 auth 관련 담당
+    'dj_rest_auth.registration',  # signup 담당
+
+    # signup 담당을 위해 필요 
+    'allauth', 
+    'allauth.account',
+    'allauth.socialaccount',
 
     # CORS 세팅
+    'corsheaders',
 
     # native apps
     'django.contrib.admin',
@@ -50,9 +60,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',  # dj-rest-auth signup 필요
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -142,3 +154,32 @@ AUTH_USER_MODEL = 'accounts.User'
 JOBPOSTING_MODEL = 'companys.JobPosting'
 JOBSEEKER_MODEL = 'jobseekers.Jobseeker'
 EDUCATION_MODEL = 'academys.Education'
+
+CORS_ALLOW_ALL_ORIGINS = True
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend' 
+
+# REST_AUTH_REGISTER_SERIALIZERS = {
+#     'REGISTER_SERIALIZER': 'accounts.serializers.CustomRegisterSerializer',
+# }
+
+SITE_ID = 1 # 없으면 site를 찾지 못하는 오류가 남
+
+# 설정해주지 않으면 Reverse for 'account_confirm_email' not found. 오류
+ACCOUNT_EMAIL_VERIFICATION = 'none' # 이메일 유효성 인증이 필요한지 
+
+
+# ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_AUTHENTICATION_METHOD = 'username'
+
+# DRF 인증 관련 설정
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+    ],
+    'DEFAULT_PERMISSION_CLASSES': [
+        # 모두에게 허용
+        'rest_framework.permissions.AllowAny', 
+        # 인증된 사용자만 모든일이 가능 / 비인증 사용자는 모두 401 Unauthorized
+        #'rest_framework.permissions.IsAuthenticated'
+    ]
+}

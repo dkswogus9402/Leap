@@ -14,12 +14,15 @@ class Resume(models.Model):
 
 # Create your models here.
 class Jobseeker(models.Model):
+    name = models.CharField(max_length = 20) # 가입자 이름
+    tell = models.CharField(max_length = 13) # 전화번호
+    email = models.CharField(max_length = 255) # 이메일
+    location = models.CharField(max_length = 255) # 회사 위치
     jobseeker = models.OneToOneField(
       settings.AUTH_USER_MODEL, on_delete=models.CASCADE, blank=True, null=True)
-    area = models.CharField(max_length=100)
     address = models.CharField(max_length=100)
     description = models.TextField()
-    resume = models.ForeignKey(Resume, on_delete=models.CASCADE, related_name='jobpostings')
+    resume = models.ForeignKey(Resume, on_delete=models.CASCADE, related_name='jobpostings' )
 
     def __str__(self):
         return self.jobseeker.username

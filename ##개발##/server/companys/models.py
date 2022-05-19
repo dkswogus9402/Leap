@@ -3,6 +3,10 @@ from django.conf import settings
 
 # Company App
 class Company(models.Model):
+    name = models.CharField(max_length = 20) # 가입자 이름
+    tell = models.CharField(max_length = 13) # 전화번호
+    email = models.CharField(max_length = 255) # 이메일
+    location = models.CharField(max_length = 255) # 회사 위치
     company = models.OneToOneField(
       settings.AUTH_USER_MODEL, on_delete=models.CASCADE, blank=True, null=True)
     number_of_workers = models.IntegerField() # 근무자 수

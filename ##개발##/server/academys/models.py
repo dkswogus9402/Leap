@@ -10,8 +10,13 @@ class Category(models.Model):
         
 
 class Academy(models.Model):
+    
     academy = models.OneToOneField(
         settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    name = models.CharField(max_length = 20) # 가입자 이름
+    tell = models.CharField(max_length = 13) # 전화번호
+    email = models.CharField(max_length = 255) # 이메일
+    location = models.CharField(max_length = 255) # 회사 위치
     CEO = models.CharField(max_length=100) # CEO 이름
     site = models.CharField(max_length=255) # 홈페이지 주소
 
