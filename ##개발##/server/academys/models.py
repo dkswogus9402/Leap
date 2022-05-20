@@ -5,7 +5,6 @@ from django.conf import settings
 
 class Category(models.Model):
     name = models.CharField(max_length=45)
-    
     def __str__(self):
         return self.name
         
@@ -33,23 +32,27 @@ class Education(models.Model):
     # Progerssing_Education
     # 유저와 교욱과정 M : N 관계 
     # 이수 여부 확인
-    progressing_education = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='progressing_user')
+    progressing_user = models.ManyToManyField(settings.JOBSEEKER_MODEL, related_name='progressing_education')
     # Complete Education
     # 유저와 교욱과정 M : N 관계
     # 이수 완료 여부 확인
-    completed_education = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='completed_user')
+    completed_user = models.ManyToManyField(settings.JOBSEEKER_MODEL, related_name='completed_education')
     
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     academy = models.ForeignKey(Academy, on_delete=models.CASCADE)
 
     title = models.CharField(max_length=45)
     content = models.TextField()
-    training_period = models.CharField(max_length=10)
+    training_period = models.DateTimeField()
     teacher = models.CharField(max_length=45)
     teacher_info = models.TextField()
     location = models.TextField()
+    academy = models.ForeignKey("Academy", on_delete=models.CASCADE)
     
 
     def __str__(self):
         return self.title
+
+
+
 

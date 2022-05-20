@@ -2,7 +2,8 @@ from rest_framework import serializers
 from rest_auth.registration.serializers import RegisterSerializer
 from rest_framework.authtoken.models import Token
 from .models import Jobseeker
-
+from academys.models import Education
+from companys.models import JobPosting
 
 class JobseekerCustomRegistrationSerializer(RegisterSerializer):
     jobseeker = serializers.PrimaryKeyRelatedField(read_only=True,) #by default allow_null = False
@@ -38,3 +39,25 @@ class JobseekerCustomRegistrationSerializer(RegisterSerializer):
                 resume = self.cleaned_data.get('resume'))
         jobseeker.save()
         return user
+
+
+
+class JobseekerSerializer(serializers.ModelSerializer):
+
+    class JobposingSerializer(serializers.ModelSerializer):
+        class Meta: 
+            model = JobPosting
+            fields = "__all__"
+
+    class EducationSerializer(serializers.ModelSerializer):
+        class Meta: 
+            model = Education
+            fields = ("progressing_education", "completed_education")
+
+
+    progressing_education = EducationSerializer(many=True, read_only=True)
+    completed_education = JobposingSerializer(many=True, read_only=True)
+    
+    class Meta:
+        model = Jobseeker
+        fields = "__all__"

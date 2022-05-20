@@ -87,3 +87,16 @@ class JobPostingListSerializer(serializers.ModelSerializer):
     class Meta:
         model = JobPosting
         fields = '__all__'
+
+
+class CompanySerializer(serializers.ModelSerializer):
+
+    class JobposingSerializer(serializers.ModelSerializer):
+        class Meta: 
+            model = JobPosting
+            fields = "__all__"
+
+    jobpostings = JobposingSerializer(many=True, read_only=True)
+    class Meta:
+        model = Company
+        fields = "__all__"
