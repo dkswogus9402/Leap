@@ -1,7 +1,7 @@
 from django.shortcuts import get_object_or_404
 
 from rest_auth.registration.views import RegisterView
-from .serializers import CompanyCustomRegistrationSerializer
+from .serializers import CompanyCustomRegistrationSerializer, CompanySerializer
 
 from rest_framework import status
 from rest_framework.decorators import api_view
@@ -68,3 +68,11 @@ def job_detail_or_update_or_delete(request, jobposting_pk):
     elif request.method == 'DELETE':
         if str(request.user) == str(jobPosting.company):
             return delete_jobPosting()
+
+
+
+@api_view(['GET'])
+def company_detail(request):
+    company = get_object_or_404(Company, company_id = request.user.id)
+    serializer = CompanySerializer(company)
+    return Response(serializer.data)

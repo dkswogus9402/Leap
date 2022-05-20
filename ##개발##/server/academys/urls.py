@@ -13,4 +13,7 @@ urlpatterns = [
     # 조회 및 생성
     path('category/', views.category_list_or_create),
     path('category/<int:category_pk>/', views.category_detail_or_update_or_delete),
+    
+    # 학원 정보 (프로필)
+    path('academys/detail/', views.academy_detail)
 ]

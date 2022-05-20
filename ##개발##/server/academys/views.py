@@ -1,6 +1,6 @@
 
 from rest_auth.registration.views import RegisterView
-from .serializers import AcademyCustomRegistrationSerializer, CategorySerializer, EducationSerializer, EducationListSerializer
+from .serializers import AcademyCustomRegistrationSerializer, CategorySerializer, EducationSerializer, EducationListSerializer, AcademySerializer
 
 from rest_framework.response import Response
 from rest_framework import status
@@ -115,3 +115,10 @@ def category_detail_or_update_or_delete(request, category_pk):
         return update_category()
     elif request.method == 'DELETE':
         return delete_category()
+
+
+@api_view(['GET'])
+def academy_detail(request):
+    academy = get_object_or_404(Academy, academy_id = request.user.id)
+    serializer = AcademySerializer(academy)
+    return Response(serializer.data)
