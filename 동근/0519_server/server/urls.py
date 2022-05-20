@@ -19,7 +19,7 @@ from django.urls import path, include
 urlpatterns = [
     path('admin/', admin.site.urls),
     # 경로 재설정 논의 필요
-    # path('api/v1/academys/', include('academys.urls')),
+    path('api/v1/academys/', include('academys.urls')),
     path('api/v1/accounts/', include('jobseekers.urls')),
     path('api/v1/accounts/', include('companys.urls')),
     path('api/v1/accounts/', include('academys.urls')),

@@ -40,6 +40,7 @@ class Education(models.Model):
     completed_education = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='completed_user')
     
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    academy = models.ForeignKey(Academy, on_delete=models.CASCADE)
 
     title = models.CharField(max_length=45)
     content = models.TextField()

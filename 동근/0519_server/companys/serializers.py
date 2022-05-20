@@ -59,18 +59,18 @@ class JobPostingSerializer(serializers.ModelSerializer):
     class companyTitleSerializer(serializers.ModelSerializer):
         class Meta:
             model = Company
-            fields = ('pk', 'company')
+            fields = '__all__'
     class JobSeekerSerializer(serializers.ModelSerializer):
         class Meta:
             model = Jobseeker
-            fields = ('pk', 'jobseeker')
+            fields = '__all__'
 
     company = companyTitleSerializer(read_only=True)
     application_jobseekers = JobSeekerSerializer(many=True, read_only=True)
 
     class Meta:
         model = JobPosting
-        fields = ('pk', 'company', 'salary', 'job_position', 'welfare', 'application_process', 'registeration', 'expired', 'preferential_requirements', 'requestments', 'employment_type', 'manager', 'application_jobseekers',)
+        fields = '__all__'
 
 
 
@@ -80,10 +80,10 @@ class JobPostingListSerializer(serializers.ModelSerializer):
     class companyTitleSerializer(serializers.ModelSerializer):
         class Meta:
             model = Company
-            fields = ('pk', 'company')
+            fields = '__all__'
             
     company = companyTitleSerializer(read_only=True)
 
     class Meta:
         model = JobPosting
-        fields = ('pk', 'company', 'job_position', )
+        fields = '__all__'
