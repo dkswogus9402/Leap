@@ -61,3 +61,34 @@ if article.like_users.filter(academy_id = user.pk).exists():
 
 
 
+### 다중 유저 모델 사용 시, 현재 요청을 보내는 유저와 게시글 소유자가 같은지 확인법
+
+
+
+기존 단일 유저모델 사용 때와 같이
+
+```python
+if request.user == education.academy:
+    pass
+```
+
+위의 코드를 작성하여 단순히 확인하였지만, 계속해서 오류가 발생했습니다.
+
+
+
+`print()`를 통해 값을 확인해보았지만, 값은 정상적으로 잘 나왔습니다.
+
+하지만 type을 확인한 순간 잘못된 부분을 알 수 있었습니다
+
+![image-20220520141518359](05-20 troble shootting.assets/image-20220520141518359.png)
+
+다음과 같이 class 형태로 이루어져 있어서 if 결과 값이 False로 반환되고 있었습니다.
+
+
+
+```python
+if str(request.user) == str(education.academy):
+    pass
+```
+
+두 개 모두 클래스가 다를 뿐, 같은 값이기에 str로 감싸주어 오류를 해결하였습니다.
