@@ -18,19 +18,21 @@ class AcademyRegistrationView(RegisterView):
 # 전체조회 및 생성
 @api_view(['GET', 'POST'])
 def education_list_or_create(request):
+    academy_info = get_object_or_404(Academy, academy_id=request.user.id)
 
     def education_list():
-        educations = Education.objects.all()
+        educations = Education.objects.order_by('-pk')
         serializer = EducationListSerializer(educations, many=True)
         return Response(serializer.data)
 
     def education_create():
+        
         serializer = EducationSerializer(data=request.data)
         if serializer.is_valid(raise_exception=True):
-            serializer.save()
+            serializer.save(academy=academy_info)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 
-    
+
     if request.method == 'GET':
         return education_list()
     elif request.method == 'POST':
@@ -41,6 +43,8 @@ def education_list_or_create(request):
 @api_view(['GET', 'PUT', 'DELETE'])
 def education_detail_or_update_or_delete(request, education_pk):
     education = get_object_or_404(Education, pk=education_pk)
+    print(request.user)
+    print(education.academy)
 
     def education_detail():
         serializer = EducationSerializer(education)
@@ -59,9 +63,11 @@ def education_detail_or_update_or_delete(request, education_pk):
     if request.method == 'GET':
         return education_detail()
     elif request.method == 'PUT':
-        return update_education()
+        if str(request.user) == str(education.academy):
+            return update_education()
     elif request.method == 'DELETE':
-        return delete_education()
+        if str(request.user) == str(education.academy):
+            return delete_education()
 
 
 
