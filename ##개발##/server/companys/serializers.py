@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from rest_auth.registration.serializers import RegisterSerializer
-from .models import  Company
+from .models import  Company, JobPosting
+from jobseekers.models import Jobseeker
 
 class CompanyCustomRegistrationSerializer(RegisterSerializer):
     company = serializers.PrimaryKeyRelatedField(read_only=True,)
@@ -42,3 +43,60 @@ class CompanyCustomRegistrationSerializer(RegisterSerializer):
         company.save()
         return user
 
+
+
+class CompanySerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Company
+        fields = '__all__'
+
+
+
+
+class JobPostingSerializer(serializers.ModelSerializer):
+
+    class companyTitleSerializer(serializers.ModelSerializer):
+        class Meta:
+            model = Company
+            fields = '__all__'
+    class JobSeekerSerializer(serializers.ModelSerializer):
+        class Meta:
+            model = Jobseeker
+            fields = '__all__'
+
+    company = companyTitleSerializer(read_only=True)
+    application_jobseekers = JobSeekerSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = JobPosting
+        fields = '__all__'
+
+
+
+
+class JobPostingListSerializer(serializers.ModelSerializer):
+
+    class companyTitleSerializer(serializers.ModelSerializer):
+        class Meta:
+            model = Company
+            fields = '__all__'
+            
+    company = companyTitleSerializer(read_only=True)
+
+    class Meta:
+        model = JobPosting
+        fields = '__all__'
+
+
+class CompanySerializer(serializers.ModelSerializer):
+
+    class JobposingSerializer(serializers.ModelSerializer):
+        class Meta: 
+            model = JobPosting
+            fields = "__all__"
+
+    jobpostings = JobposingSerializer(many=True, read_only=True)
+    class Meta:
+        model = Company
+        fields = "__all__"

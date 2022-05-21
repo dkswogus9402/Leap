@@ -53,8 +53,12 @@ class EducationListSerializer(serializers.ModelSerializer):
     
 
 class EducationSerializer(serializers.ModelSerializer):
+    class InfoSerializer(serializers.ModelSerializer):
+        class Meta:
+            model = Academy
+            fields = '__all__'
     
-    
+    academy = InfoSerializer(read_only=True)
     class Meta:
         model = Education
         fields = '__all__'
@@ -67,3 +71,15 @@ class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
         fields = '__all__'
+
+
+class AcademySerializer(serializers.ModelSerializer):
+    class EducationSerializer(serializers.ModelSerializer):
+        class Meta:
+            model = Education
+            fields = ('title')
+
+    education_set = EducationSerializer(read_only=True, many = True)
+    class Meta:
+        model = Academy
+        fields = "__all__"

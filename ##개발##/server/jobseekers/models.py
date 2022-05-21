@@ -22,7 +22,7 @@ class Jobseeker(models.Model):
       settings.AUTH_USER_MODEL, on_delete=models.CASCADE, blank=True, null=True)
     address = models.CharField(max_length=100)
     description = models.TextField()
-    resume = models.ForeignKey(Resume, on_delete=models.CASCADE, related_name='jobpostings' )
+    resume = models.ForeignKey(Resume, on_delete=models.CASCADE, related_name='jobpostings', null=True )
 
     def __str__(self):
         return self.jobseeker.username
